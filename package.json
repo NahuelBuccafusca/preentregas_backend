@@ -1,0 +1,15 @@
+{
+  "name": "back_ecommerce",
+  "version": "1.0.0",
+  "description": "",
+  "main": "productManager.js",
+  "scripts": {
+    "start": "node --watch src/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
