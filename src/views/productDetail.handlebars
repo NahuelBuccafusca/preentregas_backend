@@ -1,22 +1,41 @@
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h4 class="card-title">{{title}}</h4>
-                    <h5 class="card-subtitle">{{category}}</h5>
-                    <p class="card-text">{{description}}</p>
-                    <p class="card-text"><strong>Precio:</strong> ${{price}}</p>
-                    <p class="card-text"><strong>ID:</strong> {{id}}</p>
-                    <p class="card-text"><strong>Stock:</strong> {{stock}}</p>
-                    <div class="d-grid gap-2 d-md-block">
-                        <a href="/api/products/get" class="btn btn-primary w-100 mb-2">Volver atrás</a>
-                        <button class="btn btn-success w-100" onclick="addToCart('{{id}}')">Agregar al carrito</button>
-                    </div>
-                </div>
-            </div>
+<div>
+  {{#if user}}
+    <a
+      href="/carts/{{user.cart}}"
+      id="imgCart"
+    >
+      {{#if cart.length}}
+        <p >{{cart.length}}</p>
+      {{else}}
+        <p></p>
+      {{/if}}
+      shopping_cart
+    </a>
+  {{else}}
+  {{/if}}
+  <section >
+    <h3>{{product.title}}</h3>
+    <div >
+      <div>
+        <p>Descripción: {{product.description}}</p>
+        <p>Precio: $ {{product.price}}.-</p>
+        <p>Categoria: {{product.category}}</p>
+        <div>
+          {{#if user}}
+            <form
+              action="/carts/{{user.cart}}/products/{{product._id}}"
+              method="POST"
+            ><button>Agregar </button></form>
+            <a href="/products"><button>Seguir comprando</button></a>
+          {{else}}
+            <a href="/products"><button>Ver todos</button></a>
+          {{/if}}
         </div>
+
+      </div>
+
     </div>
+  </section>
 </div>
 
-<script src="../public/addToCart.js"></script>
+<script src="/js/productDetails.js"></script>

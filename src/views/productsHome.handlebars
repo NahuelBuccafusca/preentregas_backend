@@ -1,0 +1,16 @@
+<div>
+  <section >
+    <h2>PRODUCTOS</h2>
+    <div >
+      {{#each products}}
+        <div>
+          <p>{{title}}</p>
+          <p>$ {{price}}</p>
+          <button  data-id="{{_id}}">Agregar </button>
+        </div>
+      {{/each}}
+    </div>
+    <a href="./productsManager">Administrar productos</a>
+  </section>
+  
+  <div>

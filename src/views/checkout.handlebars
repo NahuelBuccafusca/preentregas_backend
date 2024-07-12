@@ -1,0 +1,23 @@
+<h2>Finaliza tu compra</h2>
+<div><h3>PRODUCTOS</h3>
+  {{#if ProductosConStock}}
+    <div>
+      <h4>Productos en stock</h4>
+      {{#each ProductosConStock}}
+        <p>{{this.title}}</p>
+      {{/each}}
+    </div>
+  {{/if}}
+  {{#if ProductosSinStock}}
+    <div>
+      <h4>Productos sin stock</h4>
+      {{#each ProductosSinStock}}
+        <p>{{this.title}}</p>
+      {{/each}}
+    </div>
+  {{/if}}
+  <p>Total de la compra <span>${{total}}.-</span></p>
+  <form action="/carts/:cid/purchase" method="post">
+    <button>Comprar</button>
+  </form>
+</div>

@@ -1,32 +1,82 @@
-<div class="container mt-5">
-    <h1 class="mb-4">Lista de Productos</h1>
-    <div class="row d-flex">
-        {{#each products}}
-        <div class="col-md-4 mb-4 d-flex align-items-stretch">
-            <div class="card h-100">
-                <div class="card-img-wrapper">
-                </div>
-                <div class="card-body d-flex flex-column">
-                    <h4 class="card-title">{{title}}</h5>
-                        <h5 class="card-subtitle">Categoria:{{category}}</h3>
-                            <p class="card-text">{{description}}</p>
-                            <p class="card-text mt-auto"><strong>Precio: </strong>${{price}}</p>
-                            <a href="/api/products/get/{{_id}}" class="btn btn-primary mt-auto">Ver más</a>
-                            <button class="btn btn-success mt-2" onclick="addToCart('{{_id}}')">Agregar al
-                                carrito</button>
-                </div>
+<div>
+  <section>
+    <h2>PRODUCTOS</h2>
+
+    <div >
+      {{#if user}}
+        <p>¡Hola,
+          {{user.first_name}}
+          {{user.last_name}}!</p>
+
+      {{else}}
+        <p>Inicia sesión para inicar la compra</p>
+      {{/if}}
+      {{#if user}}
+
+        <a
+          href="/carts/{{user.cart}}"
+          id="imgCart"
+        >
+          {{#if cart.length}}
+            <p>{{cart.length}}</p>
+          {{else}}
+            <p></p>
+          {{/if}}
+          shopping_cart
+        </a>
+      {{else}}
+
+      {{/if}}
+    </div>
+  
+      {{#if response.payload.length}}
+
+        <div>
+          {{#each response.payload}}
+            <div >
+              <h3>{{this.title}}</h3>
+              <p>$ {{this.price}}</p>
+              <div>
+{{#if ../response/userOne}}
+                <form
+                  action="/carts/{{../response/userOne.cart}}/products/{{this._id}}"
+                  method="POST"
+                ><button  data-id="{{this._id}}">Agregar
+                  </button></form>
+
+                <a class="viewDetails" href="/productDetails/{{this._id}}">Ver
+                  más...</a></div>
+                  {{else}}
+                  <a href="/productDetails/{{this._id}}">Ver
+                  más...</a></div>
+                  {{/if}}
             </div>
+          {{/each}}
         </div>
-        {{/each}}
-    </div>
-    <div class="mt-4">
-        {{#if prevLink}}
-        <a href="{{prevLink}}" class="btn btn-primary mb-4">Página anterior</a>
-        {{/if}}
-        {{#if nextLink}}
-        <a href="{{nextLink}}" class="btn btn-primary ml-2 mb-4">Página siguiente</a>
-        {{/if}}
-    </div>
+        <div>
+          {{#if response.hasPrevPage}}
+            <a href="{{response.prevLink}}">Anterior</a>
+          {{/if}}
+          &nbsp;
+          {{response.page}}
+          &nbsp;
+          {{#if response.hasNextPage}}
+            <a href="{{response.nextLink}}">Siguiente</a>
+          {{/if}}
+        </div>
+      {{else}}
+        <p>No products found.</p>
+      {{/if}}
+    
+    {{#if user}}
+      <form action="/api/sessions/logout" method="POST">
+        <button type="submit">Cerrar Sesión</button>
+      </form>
+    {{else}}
+      <a  href="/login">Inicia sesión</a>
+    {{/if}}
+  </section>
+
 </div>
 
-<script src="../public/addToCart.js"></script>
+<script src="/js/products.js"></script>

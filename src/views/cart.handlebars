@@ -1,0 +1,30 @@
+<div>
+  <h2>CARRITO</h2>
+  {{#if cart.products.length}}
+    {{#each cart.products}}
+      <div data-id="{{../cart._id}}">
+      <div>
+        <button  data-id="{{this.product._id}}">+</button>
+         <p>Cantidad: {{this.quantity}}</p>
+         <p>Total: {{this.totalPrice}}</p>
+        <button  data-id="{{this.product._id}}">-</button>
+      
+    {{/each}}
+    <p>Total: ${{{totalPrice}}}.-</p>
+    <a href="/carts/{{cart._id}}/purchase">Continuar con la compra</a>
+  {{else}}
+    <div>
+      <p>¿Aún no has añadido productos al carrito!</p>
+
+    </div>
+  {{/if}}
+
+</div>
+<div>
+<form action="/messages" method="GET">
+  <button>Chateá con nosotros</button></form>
+<a href="/products">Home</a>
+</div>
+
+
+<script src="/js/cart.js"></script>
