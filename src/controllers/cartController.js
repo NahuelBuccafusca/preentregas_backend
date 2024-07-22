@@ -6,9 +6,7 @@ const ticketManager = require("../dao/classes/ticket.dao.js");
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 
-const cartService = new cartManager();
-const productService = new productManager();
-const ticketService = new ticketManager();
+dotenv.config();
 
 const transport = nodemailer.createTransport({
   service: "gmail",
@@ -18,6 +16,11 @@ const transport = nodemailer.createTransport({
     pass: process.env.pass,
   },
 });
+
+const cartService = new cartManager();
+const productService = new productManager();
+const ticketService = new ticketManager();
+
 exports.getcarts = async (req, res) => {
   try {
     let carts = await cartService.getCarts();
@@ -40,7 +43,6 @@ exports.getCartById = async (req, res) => {
   try {
     let cart = await cartService.getCartByIdPopulate(cid);
     let cartSimple = await cartService.getCartById(cid);
-    console.log(cart);
     res.render("cart", {
       cart,
       totalPrice: cartSimple.total,
@@ -126,11 +128,11 @@ exports.checkout = async (req, res) => {
         productNoStock.push({ title: product.product.title });
       }
     }
-    console.log(total);
     res.render("checkout", {
       ProductosConStock: productStock,
       ProductosSinStock: productNoStock,
       total: total,
+      title: "Checkout",
     });
   } catch (error) {
     res.status(504).send(error);
@@ -156,13 +158,12 @@ exports.buy = async (req, res) => {
         `Producto ${product.product.title} actualizado en base de datos`
       );
       await cartService.updateCart(cid, productId);
-      
     } else {
       productNoStock.push({ title: product.product.title });
       console.log(`Producto ${product.product.title} sin stock`);
     }
-
   }
+
 
   let codeCrypto = `${req.session.user.last_name}_${crypto
     .randomBytes(10)
@@ -184,11 +185,11 @@ exports.buy = async (req, res) => {
           <p>Gracias por su compra</p>
           </div>`,
   });
-  
   let result = await ticketService.createTicket(ticket);
   res.render("purchaseDetail", {
     ticket: ticket,
     products: productStock,
     productNoStock: productNoStock,
+    title: "Tu pedido",
   });
-}
+};

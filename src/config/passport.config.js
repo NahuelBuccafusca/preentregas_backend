@@ -3,7 +3,7 @@ const GitHubStrategy = require("passport-github2");
 const local = require("passport-local");
 const userService = require("../dao/models/users.model.js");
 const cartService = require("../dao/models/cart.model.js");
-const { createHash,} = require("../utils.js");
+const { createHash, isValidPassword } = require("../utils.js");
 const dotenv = require("dotenv");
 
 dotenv.config();
@@ -87,9 +87,25 @@ const initializePassport = () => {
     let user = await userService.findById(id);
     done(null, user);
   });
-
- 
-
+  passport.use(
+    "login",
+    new LocalStrategy(
+      { usernameField: "email" },
+      async (username, password, done) => {
+        try {
+          const user = await userService.findOne({ email: username });
+          if (!user) {
+            return done(null, user);
+          }
+          if (!isValidPassword(user, password)) return done(null, false);
+          return done(null, user);
+        } catch (error) {
+          return done(error);
+        }
+      }
+    )
+  );
 };
+
 
 module.exports = initializePassport;

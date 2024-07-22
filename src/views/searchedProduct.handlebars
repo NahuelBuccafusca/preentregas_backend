@@ -1,0 +1,22 @@
+<div class="container mt-4">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header card text-center mb-3">
+                  <h3>Detalle del Producto seleccionado</h3>  
+                </div>
+                <div class="card-body card text-center mb-3">
+                    <h5 class="card-title">{{product.title}}</h5>
+                    <p class="card-text">Descripcion:{{product.description}}</p>
+                    <p class="card-text">Codigo:{{product.code}}</p>
+                    <p class="card-text">Categoria:{{product.category}}</p>
+                    <p class="card-text">Stock:{{product.stock}}</p>
+                    <p class="card-text"><strong>Precio:</strong> ${{product.price}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <a href="/api/products" class="btn btn-primary btn-block">Volver a lista</a>
+        </div>
+    </div>
+</div>

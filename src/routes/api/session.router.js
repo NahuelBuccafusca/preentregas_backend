@@ -1,9 +1,11 @@
 const express = require("express");
+const userModel = require("../../dao/models/users.model.js");
 const passport = require("passport");
 const sessionController = require("../../controllers/sessionController.js");
 
 const router = express.Router();
 
+const users = [];
 
 router.post(
   "/register",
@@ -34,6 +36,8 @@ router.get("/faillogin", (req, res) => {
 });
 
 router.post("/logout", sessionController.logout);
+
+
 
 router.get(
   "/github",

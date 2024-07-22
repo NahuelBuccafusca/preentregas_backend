@@ -23,6 +23,7 @@ app.use(cookieParser());
 
 app.use(
   session({
+
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_URL,
     }),
@@ -44,7 +45,7 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
-const dbConnection = async () => {
+const connectMongoDB = async () => {
   await mongoose.connect(process.env.MONGO_URL);
   try {
     console.log("Conectado a la base de datos");
@@ -53,7 +54,7 @@ const dbConnection = async () => {
   }
 };
 
-dbConnection();
+connectMongoDB();
 
 app.use("/api/sessions", sessionRouter);
 app.use("/", viewsRouter);
